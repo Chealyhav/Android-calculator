@@ -5,23 +5,73 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
     Button b1,b2,b3,b4,b5,b6,b7,b8,b9,b0,bdot,bpi,bequal,bplus,bmin,bmul,bdiv,binv,bsqrt,bsquare,bfact,bln,blog,btan,bcos,bsin,bb1,bb2,bc,bac,
     bhex, bdec, boct, bbin, bpercent,bsquares,bsqrts,bnegate;
-    TextView tvmain,tvsec;
+    TextView tvmain,tvsec,textView;
+    EditText editText;
     String pi = "3.14159265";
     private RadioGroup modeSelection;
     private LinearLayout scientificLayout, programLayout;
+
+//    EditText editText = findViewById(R.id.editText);
+//    TextView textView = findViewById(R.id.textView);
+
+    //onclick listeners
+
+    private void convertToDecimal() {
+        String input = tvmain.getText().toString();
+        try {
+            int decimalValue = Integer.parseInt(input, 2);
+            tvmain.setText(String.valueOf(decimalValue));
+        } catch (NumberFormatException e) {
+            tvmain.setText("convert from Decimal");
+        }
+    }
+
+
+    private void convertToOctal() {
+        String input = tvmain.getText().toString();
+        try {
+            int decimalValue = Integer.parseInt(input);
+            String octalValue = Integer.toOctalString(decimalValue);
+            tvmain.setText(octalValue);
+        } catch (NumberFormatException e) {
+            tvmain.setText("Invalid input");
+        }
+    }
+
+
+    private void convertToBinary() {
+        String input = tvmain.getText().toString();
+        try {
+            int decimalValue = Integer.parseInt(input);
+            String binary = String.format("%8s", Integer.toBinaryString(decimalValue)).replace(' ', '0');
+            tvmain.setText(binary);
+        } catch (NumberFormatException e) {
+            tvmain.setText("Invalid input");
+        }
+    }
+
+
+    private void convertToHexadecimal() {
+        String input = tvmain.getText().toString();
+        try {
+            int decimalValue = Integer.parseInt(input);
+            String hex = Integer.toHexString(decimalValue);
+            tvmain.setText(hex);
+        } catch (NumberFormatException e) {
+            tvmain.setText("Invalid input");
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         b1 = findViewById(R.id.b1);
         b2 = findViewById(R.id.b2);
         b3 = findViewById(R.id.b3);
@@ -65,8 +115,10 @@ public class MainActivity extends AppCompatActivity {
 
         tvmain = findViewById(R.id.tvmain);
         tvsec = findViewById(R.id.tvsec);
+//        editText = findViewById(R.id.editText);
 
-                // Initialize the RadioGroup and LinearLayouts
+
+        // Initialize the RadioGroup and LinearLayouts
         modeSelection = findViewById(R.id.modeSelection);
         scientificLayout = findViewById(R.id.scientificLayout);
         programLayout = findViewById(R.id.programLayout);
@@ -99,13 +151,44 @@ public class MainActivity extends AppCompatActivity {
             modeSelection.check(checkedRadioButtonId);
         }
 
-        //onclick listeners
 
-        // Calculate the result based on the expression in tvmain
+        bdec.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                convertToDecimal();
+            }
+        });
+
+        boct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                convertToOctal();
+            }
+        });
+
+        bbin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                convertToBinary();
+            }
+        });
+
+        bhex.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                convertToHexadecimal();
+            }
+        });
 
 
 
-// Add onClick listeners for the new buttons
+
+
+
+
+
+
+
         bpercent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
