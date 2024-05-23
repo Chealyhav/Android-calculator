@@ -4,14 +4,19 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
-    Button b1,b2,b3,b4,b5,b6,b7,b8,b9,b0,bdot,bpi,bequal,bplus,bmin,bmul,bdiv,binv,bsqrt,bsquare,bfact,bln,blog,btan,bcos,bsin,bb1,bb2,bc,bac;
+    Button b1,b2,b3,b4,b5,b6,b7,b8,b9,b0,bdot,bpi,bequal,bplus,bmin,bmul,bdiv,binv,bsqrt,bsquare,bfact,bln,blog,btan,bcos,bsin,bb1,bb2,bc,bac,
+    bhex, bdec, boct, bbin, bpercent,bsquares,bsqrts,bnegate;
     TextView tvmain,tvsec;
     String pi = "3.14159265";
-
+    private RadioGroup modeSelection;
+    private LinearLayout scientificLayout, programLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,11 +52,98 @@ public class MainActivity extends AppCompatActivity {
         bb2 = findViewById(R.id.bb2);
         bc = findViewById(R.id.bc);
         bac = findViewById(R.id.bac);
+        bhex = findViewById(R.id.bhex);
+        bdec = findViewById(R.id.bdec);
+        boct = findViewById(R.id.boct);
+        bbin = findViewById(R.id.bbin);
+
+
+        bpercent = findViewById(R.id.bpercent);
+        bsquares = findViewById(R.id.bsquares);
+        bsqrts = findViewById(R.id.bsqrts);
+        bnegate = findViewById(R.id.bnegate);
 
         tvmain = findViewById(R.id.tvmain);
         tvsec = findViewById(R.id.tvsec);
 
+                // Initialize the RadioGroup and LinearLayouts
+        modeSelection = findViewById(R.id.modeSelection);
+        scientificLayout = findViewById(R.id.scientificLayout);
+        programLayout = findViewById(R.id.programLayout);
+
+        // Set the default visibility
+        scientificLayout.setVisibility(View.GONE);
+        programLayout.setVisibility(View.GONE);
+
+        // Set a listener for the RadioGroup
+        modeSelection.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                // Update visibility based on the selected radio button
+                if (checkedId == R.id.basicMode) {
+                    scientificLayout.setVisibility(View.GONE);
+                    programLayout.setVisibility(View.GONE);
+                } else if (checkedId == R.id.standardMode) {
+                    scientificLayout.setVisibility(View.GONE);
+                    programLayout.setVisibility(View.VISIBLE);
+                } else if (checkedId == R.id.scientificMode) {
+                    scientificLayout.setVisibility(View.VISIBLE);
+                    programLayout.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        // Optional: Perform actions based on the initial checked state
+        int checkedRadioButtonId = modeSelection.getCheckedRadioButtonId();
+        if (checkedRadioButtonId != -1) {
+            modeSelection.check(checkedRadioButtonId);
+        }
+
         //onclick listeners
+
+        // Calculate the result based on the expression in tvmain
+
+
+
+// Add onClick listeners for the new buttons
+        bpercent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                double val = Double.parseDouble(tvmain.getText().toString());
+                double percent = val / 100;
+                tvmain.setText(String.valueOf(percent));
+            }
+        });
+
+        bnegate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                double val = Double.parseDouble(tvmain.getText().toString());
+                double negated = -val;
+                tvmain.setText(String.valueOf(negated));
+            }
+        });
+
+        bsquares.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                double val = Double.parseDouble(tvmain.getText().toString());
+                double squared = val * val;
+                tvmain.setText(String.valueOf(squared));
+            }
+        });
+
+        bsqrts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                double val = Double.parseDouble(tvmain.getText().toString());
+                double sqrt = Math.sqrt(val);
+                tvmain.setText(String.valueOf(sqrt));
+            }
+        });
+
+
+
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
